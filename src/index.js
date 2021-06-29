@@ -1,31 +1,48 @@
-import './sass/main.scss';
+//import './sass/main.scss';
 
-// const colors = [
-//   '#FFFFFF',
-//   '#2196F3',
-//   '#4CAF50',
-//   '#FF9800',
-//   '#009688',
-//   '#795548',
-// ];
+const colors = [
+  '#FFFFFF',
+  '#2196F3',
+  '#4CAF50',
+  '#FF9800',
+  '#009688',
+  '#795548',
+];
 
-// const randomIntegerFromInterval = (min, max) => {
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// };
-const button = document.querySelector('button[data-action="start]');
-console.log(button);
-console.log("тест связи");
+const startBtn = document.querySelector('[data-action="start"]');
+const stopBtn = document.querySelector('[data-action="stop"]');
+startBtn.addEventListener('click', onStartBtnClick);
+stopBtn.addEventListener('click', onStopBtnClick);
 
-window.addEventListener('click');
+let timer = 0;
+let intervalId = null;
 
-// const startBtn = document.querySelector('[data-action="start"]');
-// startBtn.addEventListener('click');
-// //const startBtn = document.querySelector('button data-action="start"');
-// console.log(startBtn);
-// console.log('click');
+function onStartBtnClick(event) {
+  intervalId = setInterval(() => {
+    timer += 1;
+    changeColor();
+    startBtn.disabled = true;
+//    console.log(timer);
+  }, 1000)
+};
 
+const randomIntegerFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
-//var el = document.querySelector("div.user-panel.main input[name=login]");
+function changeColor() {
+  index = randomIntegerFromInterval(0, colors.length);
+  document.body.style.backgroundColor = colors[index];
+}
+
+function onStopBtnClick() {  
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    startBtn.disabled = false;
+  }
+//  console.log('stopped');   
+}
 
 //Напиши скрипт, который после нажатия кнопки Start,
 //раз в секунду меняет цвет фона body на случайное значение из массива
